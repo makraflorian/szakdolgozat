@@ -5,3 +5,5 @@ Kontrasztjavítás színes képeken
 ___
 ### Day 1
 ` Kezdetleges PyQt5 GUI készítése, pygt5-tools install `
+### Day 2
+` File chooser, scene váltás megvalósítása`

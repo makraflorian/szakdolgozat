@@ -3,6 +3,7 @@ import cv2
 
 from PyQt5.QtWidgets import *
 
+filesrc = ""
 
 def getFileName():
     file_filter = 'Image File (*.png *.jpg)'
