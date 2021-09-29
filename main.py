@@ -1,23 +1,22 @@
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton
+from PyQt5 import *
+from PyQt5.QtWidgets import *
 import sys
 
-def fileDialog():
-    print('asd')
+from PyQt5.uic import loadUi
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        loadUi("MainWindow.ui", self)
+
 
 def main():
     app = QApplication(sys.argv)
-    win = QMainWindow()
-    win.setGeometry(400, 300, 500, 500)
-    win.setWindowTitle("Kontrasztjavítás")
+    window = MainWindow()
+    window.show()
 
-    fileDialogButton = QPushButton(win)
-    fileDialogButton.setText("Choose image")
-    fileDialogButton.move(50, 20)
-    fileDialogButton.clicked.connect(fileDialog)
-
-    win.show()
     sys.exit(app.exec_())
 
 
-main()  # make sure to call the function))
+main()
