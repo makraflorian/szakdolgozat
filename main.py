@@ -1,6 +1,7 @@
 import os
 import cv2
 from PyQt5 import *
+from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import *
 import sys
 
@@ -26,9 +27,30 @@ class Screen2(QDialog):
         super(Screen2, self).__init__()
         loadUi("screen2.ui", self)
         self.mainWindowBtn.clicked.connect(self.gotoMainWindow)
+        self.newpic.clicked.connect(self.imageThings)
+        self.imageThings()
+
+
+    def imageThings(self):
         imgsrc = getFileName()
-        img = cv2.imread(imgsrc)
-        print(img.shape)
+        if len(imgsrc) == 0:
+            print(len(imgsrc))
+        else:
+            img = cv2.imread(imgsrc)
+            print(img.shape)
+            pixmap = QPixmap(self.image_cv2qt(img))
+            self.picLabel.setPixmap(pixmap)
+            self.picLabel.resize(pixmap.width(), pixmap.height())
+
+
+    def image_cv2qt(self, img):
+        imgrgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        height, width, channel = imgrgb.shape
+        bytesPerLine = 3 * width
+        qImg = QImage(imgrgb.data, width, height, bytesPerLine, QImage.Format_RGB888)
+
+        return qImg
+
 
     def gotoMainWindow(self):
         window = MainWindow()
@@ -36,15 +58,17 @@ class Screen2(QDialog):
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
-app = QApplication(sys.argv)
-widget = QStackedWidget()
-window = MainWindow()
-widget.addWidget(window)
+if __name__ == '__main__':
 
-widget.setFixedHeight(600)
-widget.setFixedWidth(800)
+    app = QApplication(sys.argv)
+    widget = QStackedWidget()
+    window = MainWindow()
+    widget.addWidget(window)
+
+    widget.setFixedHeight(600)
+    widget.setFixedWidth(800)
 
 
-widget.show()
+    widget.show()
 
-sys.exit(app.exec_())
+    sys.exit(app.exec_())

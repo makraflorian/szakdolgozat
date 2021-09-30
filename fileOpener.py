@@ -1,9 +1,9 @@
 import os
 import cv2
 
+
 from PyQt5.QtWidgets import *
 
-filesrc = ""
 
 def getFileName():
     file_filter = 'Image File (*.png *.jpg)'
@@ -13,5 +13,9 @@ def getFileName():
         filter=file_filter,
     )
     print(response[0])
-    return response[0]
+    fsrc = response[0]
+    if len(fsrc) == 0:
+        return ""
+    else:
+        return fsrc
 

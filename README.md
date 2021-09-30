@@ -6,4 +6,4 @@ ___
 ### Day 1
 ` Kezdetleges PyQt5 GUI készítése, pygt5-tools install `
 ### Day 2
-` File chooser, scene váltás megvalósítása`
+` File chooser, scene váltás megvalósítása, cv2 img to qimage és megjelenítés`
