@@ -6,6 +6,7 @@ Kontrasztjavítás színes képeken
 Goals:
         - A GUI-t ugy megvalósítani, hogy a kesobbi eljarasokat egyszerűen,
           modulszerúen lehessen hozzáadni
+        - Legalább egy eljárás megvalósítása, és bemutatása 
         - Késöbb a GUI megjelenésének szebbé tétele
 ```
 ___
