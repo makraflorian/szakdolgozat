@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 import sys
 
 from fileOpener import *
+from methods import *
 
 from PyQt5.uic import loadUi
 
@@ -34,13 +35,18 @@ class Screen2(QDialog):
     def imageThings(self):
         imgsrc = getFileName()
         if len(imgsrc) == 0:
-            print(len(imgsrc))
+            print("Cancelled ", len(imgsrc))
         else:
-            img = cv2.imread(imgsrc)
+            img = cv2.imread(imgsrc, cv2.IMREAD_GRAYSCALE)
             print(img.shape)
             pixmap = QPixmap(self.image_cv2qt(img))
             self.picLabel.setPixmap(pixmap)
             self.picLabel.resize(pixmap.width(), pixmap.height())
+            #150 260
+            self.magic = QPushButton(self)
+            self.magic.setText("magic")
+            self.magic.move(300, 300)
+
 
 
     def image_cv2qt(self, img):
