@@ -26,26 +26,46 @@ class MainWindow(QMainWindow):
 class Screen2(QDialog):
     def __init__(self):
         super(Screen2, self).__init__()
+        self._kep = None
         loadUi("screen2.ui", self)
         self.mainWindowBtn.clicked.connect(self.gotoMainWindow)
         self.newpic.clicked.connect(self.imageThings)
         self.imageThings()
 
+    @property
+    def kep(self):  # get property
+        return self._kep
+
+    @kep.setter
+    def kep(self, ertek):  # set property
+        self._kep = ertek
+
 
     def imageThings(self):
-        imgsrc = getFileName()
-        if len(imgsrc) == 0:
-            print("Cancelled ", len(imgsrc))
+        img = getFileName()
+        if len(img) == 0:
+            print("Cancelled ", len(img))
         else:
-            img = cv2.imread(imgsrc, cv2.IMREAD_GRAYSCALE)
-            print(img.shape)
-            pixmap = QPixmap(self.image_cv2qt(img))
+            self.kep = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+            # print(self.kep.shape)
+            pixmap = QPixmap(self.image_cv2qt(self.kep))
             self.picLabel.setPixmap(pixmap)
             self.picLabel.resize(pixmap.width(), pixmap.height())
-            #150 260
+
             self.magic = QPushButton(self)
             self.magic.setText("magic")
             self.magic.move(300, 300)
+            self.magic.clicked.connect(self.szaros)
+
+
+    def szaros(self):
+        self.kep = invtry(self.kep)
+        # print(self.kep.shape)
+        # cv2.imshow('Inverz', self.kep)
+        # cv2.waitKey(0)
+        pixmap = QPixmap(self.image_cv2qt(self.kep))
+        self.picLabel.setPixmap(pixmap)
+
 
 
 

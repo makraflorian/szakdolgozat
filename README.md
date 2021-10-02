@@ -15,8 +15,18 @@ ___
 ### Day 2
 ` File chooser, scene váltás megvalósítása, cv2_img to qimage és megjelenítés`
 ### Day 3
-`Plans:
+
+Plans:
 - Egy eljárás megvalósítása, talan
 a hisztogram-kiegyenlítés valamilyen változata
 - Új kép file-ba írása(kezdetben fix mappába, késöbb útvonalválasztó készítése)
-`
+
+`Próba: egy inverz fuggvennyel tesztelni az alkalmazast`
+
+`Probléma: Még mindig nem értem a gombokat, miutan megnyomtuk, a return-t nem tudjuk visszakapni
+ezért nem értem hogy tudom megvalósítani hogy gombnyomasra javitok a kepen es azt visszaadva megjelenitem`
+
+`Megoldás lehet: 
+- 1, a metodusokat belepakolni a main.py-ba és gomnyomasra ujrapeldanyositani a scene classt
+- 2, hagyni kulon file-ban és ... --||--`
+- getter/setter propertykkel ügyeskeés (kérdőjel) // Működik, egyenlőre megoldható
