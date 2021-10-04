@@ -46,7 +46,7 @@ class Screen2(QDialog):
         if len(img) == 0:
             print("Cancelled ", len(img))
         else:
-            self.kep = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+            self.kep = cv2.imread(img, cv2.IMREAD_COLOR)
             # print(self.kep.shape)
             pixmap = QPixmap(self.image_cv2qt(self.kep))
             self.picLabel.setPixmap(pixmap)
@@ -55,10 +55,10 @@ class Screen2(QDialog):
             self.magic = QPushButton(self)
             self.magic.setText("magic")
             self.magic.move(300, 300)
-            self.magic.clicked.connect(self.szaros)
+            self.magic.clicked.connect(self.proba)
 
 
-    def szaros(self):
+    def proba(self):
         self.kep = invtry(self.kep)
         # print(self.kep.shape)
         # cv2.imshow('Inverz', self.kep)
