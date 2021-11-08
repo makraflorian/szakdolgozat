@@ -65,6 +65,7 @@ class Screen2(QDialog):
         # cv2.waitKey(0)
         pixmap = QPixmap(self.image_cv2qt(self.kep))
         self.picLabel.setPixmap(pixmap)
+        cv2.imwrite("jobbdoges.png", self.kep)
 
 
 
