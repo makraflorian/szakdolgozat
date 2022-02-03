@@ -29,7 +29,9 @@ class Screen2(QDialog):
         self._kep = None
         loadUi("screen2.ui", self)
         self.mainWindowBtn.clicked.connect(self.gotoMainWindow)
+        self.mainWindowBtn.move(100, 10)
         self.newpic.clicked.connect(self.imageThings)
+        self.newpic.setText("Másik kép")
         self.imageThings()
 
     @property
@@ -53,19 +55,28 @@ class Screen2(QDialog):
             self.picLabel.resize(pixmap.width(), pixmap.height())
 
             self.magic = QPushButton(self)
-            self.magic.setText("magic")
-            self.magic.move(300, 300)
+            self.magic.setText("Magic")
+            self.magic.move(300, 15)
             self.magic.clicked.connect(self.proba)
+            self.magic.setStyleSheet("QPushButton"
+                             "{"
+                             "background-color : lightblue;"
+                             "}"
+                             "QPushButton::pressed"
+                             "{"
+                             "background-color : #4acfff;"
+                             "}"
+                             )
 
 
     def proba(self):
-        self.kep = invtry(self.kep)
+        self.kep = retinex(self.kep)
         # print(self.kep.shape)
         # cv2.imshow('Inverz', self.kep)
         # cv2.waitKey(0)
         pixmap = QPixmap(self.image_cv2qt(self.kep))
         self.picLabel.setPixmap(pixmap)
-        cv2.imwrite("jobbdoges.png", self.kep)
+        cv2.imwrite("output.png", self.kep)
 
 
 

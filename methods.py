@@ -1,129 +1,92 @@
-import math
-
 import cv2
-import numpy
 import numpy as np
-from PIL import Image
-from matplotlib import pyplot as plt
+# from PIL import Image
+# from matplotlib import pyplot as plt
 
+# ezt hívjuk meg gombnyomásra a képpel
+def retinex(image):
+    # img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # height, width, channels = img.shape
+    # print(img.shape)
+    print(image.shape)
 
-def invtry(image):
-    img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    height, width, channels = img.shape
-    print(img.shape)
-    # global r,g,b
-    r, g, b = cv2.split(img)
-    wh = width*height
+    # Multiscale Retinex eljárás hívása a képre
+    newRGBImage = MSRCP(image, [15, 80, 250], 0.01, 0.99)
 
-    # pil_image = Image.fromarray(image)
-    # pil_channels = pil_image.split()
-    #
-    # normalizedRedChannel = pil_channels[0].point(normalizeRed)
-    # normalizedGreenChannel = pil_channels[1].point(normalizeGreen)
-    # normalizedBlueChannel = pil_channels[2].point(normalizeBlue)
-    #
-    # normalizedImage = Image.merge("RGB", (normalizedRedChannel, normalizedGreenChannel, normalizedBlueChannel))
-    # im_np = np.asarray(normalizedImage) #return
+    print("Done!")
 
-    for i in range(0, height, 1):
-        for j in range(0, width, 1):
-            intensity = (int(r[i][j]) + int(g[i][j]) + int(b[i][j])) / 768
-            som = something(intensity)
-            alpha = som/intensity
-            print(alpha)
-            if alpha <= 1 and alpha >= 0:
-                r[i][j] = math.floor(r[i][j] * alpha)
-                g[i][j] = math.floor(g[i][j] * alpha)
-                b[i][j] = math.floor(b[i][j] * alpha)
-
-
-    newRGBImage = cv2.merge((b, g, r))
     return newRGBImage
 
 
-def something(intensity):
-    delta1 = 0
-    delta2 = 1
-    n = 2
-    m = 0.5
-    alphaval = 0
+def MSRCP(img, sigma_list, s1, s2):
+    height, width, channels = img.shape
 
-    if delta1 <= intensity <= m:
-        alphaval = delta1 + ((m - delta1)*(((intensity-delta1)/(m-delta1)) ** n))
-    elif m <= intensity <= delta2:
-        alphaval = delta1 - ((delta2 - m) * (((delta2 - intensity) / (delta2 - m)) ** n))
+    # lebegőpontos számokkal tudjunk számolni, és +1 hogy elkerüljük a crash-eket
+    img = np.float64(img) + 1.0
 
-    return alphaval
+    # a három channel átlaga = intensity
+    intensity = np.sum(img, axis=2) / 3
 
+    msr = multiscaleRetinex(intensity, sigma_list)
 
-def normalizeRed(intensity):
+    intensity1 = simplestColorBalance(msr, s1, s2)
+    # rescale
+    intensity1 = (intensity1 - np.min(intensity1)) / (np.max(intensity1) - np.min(intensity1)) * 255.0 + 1.0
 
-    minInput = r.min() * 2
-    maxInput = r.max()
-    minOutput = 0
-    maxOutput = 255
+    # ugyanolyan shape-el és tipussal csak 0-kat tartalmazó matrix
+    img_msrcp = np.zeros_like(img)
 
-    normalized = (intensity - minInput) * (((maxOutput - minOutput) / (maxInput - minInput)) + minOutput)
+    for y in range(height):
+        for x in range(width):
+            B = np.max(img[y, x])
+            A = np.minimum(255.0 / B, intensity1[y, x] / intensity[y, x])
+            img_msrcp[y, x, 0] = A * img[y, x, 0]
+            img_msrcp[y, x, 1] = A * img[y, x, 1]
+            img_msrcp[y, x, 2] = A * img[y, x, 2]
 
-    return normalized
+    # visszaalakítjuk 8bites egészeket tartalmazó mátrixra
+    img_msrcp = np.uint8(img_msrcp - 1.0)
 
-
-def normalizeGreen(intensity):
-
-    minInput = g.min() * 2
-    maxInput = g.max()
-    minOutput = 0
-    maxOutput = 255
-
-    normalized = (intensity - minInput) * (((maxOutput - minOutput) / (maxInput - minInput)) + minOutput)
-
-    return normalized
+    return img_msrcp
 
 
-def normalizeBlue(intensity):
+def gaussianConvolution(intensity, sigma):
 
-    minInput = b.min() * 2
-    maxInput = b.max()
-    minOutput = 0
-    maxOutput = 255
+    # intenzitás - Gauss konvolucio a sigma parameterrel (nem vagyok benne biztos hogy log10 vagy sima log, kicsit eltérő eredményt ad)
+    diff = np.log10(intensity) - np.log10(cv2.GaussianBlur(src=intensity, ksize=(0, 0), sigmaX=sigma))
 
-    normalized = (intensity - minInput) * (((maxOutput - minOutput) / (maxInput - minInput)) + minOutput)
-
-    return normalized
+    return diff
 
 
-# def counter(img):
-#
-#     cdf_table = []
-#
-#
-#     # Iterate through all values.
-#     for x in range(0, 255):
-#         for y in range(0, 255):
-#             cdf_table.append(np.count_nonzero(img == [x, y]))
-#
-#     for x in cdf_table:
-#         cdf_table.append(np.count_nonzero(img == x))
-#
-#     return cdf_table
-#
-#
-# def cdf(x, allPixel, cdf_table):
-#
-#     a = cdf_table[x]
-#     prob = a / allPixel
-#     return prob
+def multiscaleRetinex(intensity, sigmaList):
+
+    msr = np.zeros_like(intensity)
+    # konvolució mindegyik sigma paraméterrel és ezen eredmények átlagolása
+    for sigma in sigmaList:
+        msr += gaussianConvolution(intensity, sigma)
+
+    msr = msr / 3
+    return msr
 
 
+def simplestColorBalance(img, s1, s2):
 
+    height, width = img.shape
+    pixelcount = width * height
 
+    unique = np.unique(img[:, :])
+    low_val = 0
+    high_val = 255
 
+    current = 0
+    for u in unique:
+        if float(current) / pixelcount < s1:
+            low_val = u
+        if float(current) / pixelcount < s2:
+            high_val = u
+        current += 1
 
+    img[:, :] = np.maximum(np.minimum(img[:, :], high_val), low_val)
 
-
-
-
-
-
-
+    return img
 
