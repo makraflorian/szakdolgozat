@@ -4,7 +4,7 @@ import numpy as np
 # from matplotlib import pyplot as plt
 
 # ezt hívjuk meg gombnyomásra a képpel
-def retinex(image):
+def retinexOnIntensity(image):
     # img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # height, width, channels = img.shape
     # print(img.shape)
@@ -18,6 +18,38 @@ def retinex(image):
     return newRGBImage
 
 
+def retinexOnChannels(image):
+    # img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    # height, width, channels = img.shape
+    # print(img.shape)
+    print(image.shape)
+
+    # Multiscale Retinex eljárás hívása a képre
+    newRGBImage = MSRCR(image, [15, 80, 250], 192.0, -30.0, 125.0, 46.0, 0.01, 0.99)
+
+    print("Done!")
+
+    return newRGBImage
+
+
+# =======================================================================================================
+def MSRCR(img, sigma_list, G, b, alpha, beta, low_clip, high_clip):
+    img = np.float64(img) + 1.0
+
+    img_retinex = multiscaleRetinex(img, sigma_list)
+    img_color = colorRestoration(img, alpha, beta)
+    img_msrcr = G * (img_retinex * img_color + b)
+
+    for i in range(img_msrcr.shape[2]):
+        img_msrcr[:, :, i] = (img_msrcr[:, :, i] - np.min(img_msrcr[:, :, i])) / (np.max(img_msrcr[:, :, i]) - np.min(img_msrcr[:, :, i])) * 255
+
+    img_msrcr = simplestColorBalance(img_msrcr, low_clip, high_clip)
+    img_msrcr = np.uint8(np.minimum(np.maximum(img_msrcr, 0), 255))
+
+    return img_msrcr
+
+
+# =======================================================================================================
 def MSRCP(img, sigma_list, s1, s2):
     height, width, channels = img.shape
 
@@ -29,6 +61,9 @@ def MSRCP(img, sigma_list, s1, s2):
 
     msr = multiscaleRetinex(intensity, sigma_list)
 
+    intensity = np.expand_dims(intensity, 2)
+    msr = np.expand_dims(msr, 2)
+
     intensity1 = simplestColorBalance(msr, s1, s2)
     # rescale
     intensity1 = (intensity1 - np.min(intensity1)) / (np.max(intensity1) - np.min(intensity1)) * 255.0 + 1.0
@@ -39,7 +74,7 @@ def MSRCP(img, sigma_list, s1, s2):
     for y in range(height):
         for x in range(width):
             B = np.max(img[y, x])
-            A = np.minimum(255.0 / B, intensity1[y, x] / intensity[y, x])
+            A = np.minimum(255.0 / B, intensity1[y, x, 0] / intensity[y, x, 0])
             img_msrcp[y, x, 0] = A * img[y, x, 0]
             img_msrcp[y, x, 1] = A * img[y, x, 1]
             img_msrcp[y, x, 2] = A * img[y, x, 2]
@@ -69,24 +104,34 @@ def multiscaleRetinex(intensity, sigmaList):
     return msr
 
 
+def colorRestoration(img, alpha, beta):
+
+    img_sum = np.sum(img, axis=2, keepdims=True)
+
+    color_restoration = beta * (np.log10(alpha * img) - np.log10(img_sum))
+
+    return color_restoration
+
+
 def simplestColorBalance(img, s1, s2):
 
-    height, width = img.shape
+    height, width, channels = img.shape
     pixelcount = width * height
 
-    unique = np.unique(img[:, :])
     low_val = 0
     high_val = 255
 
-    current = 0
-    for u in unique:
-        if float(current) / pixelcount < s1:
-            low_val = u
-        if float(current) / pixelcount < s2:
-            high_val = u
-        current += 1
+    for i in range(img.shape[2]):
+        unique, counts = np.unique(img[:, :, i], return_counts=True)
+        current = 0
+        for u, c in zip(unique, counts):
+            if float(current) / pixelcount < s1:
+                low_val = u
+            if float(current) / pixelcount < s2:
+                high_val = u
+            current += c
 
-    img[:, :] = np.maximum(np.minimum(img[:, :], high_val), low_val)
+        img[:, :, i] = np.maximum(np.minimum(img[:, :, i], high_val), low_val)
 
     return img
 
