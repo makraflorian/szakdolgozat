@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import *
 import sys
 
 from fileOpener import *
-from methods import *
+from msretinex import *
+from hist import *
 
 from PyQt5.uic import loadUi
 
@@ -89,6 +90,19 @@ class Screen2(QDialog):
                                      "background-color : #4acfff;"
                                      "}"
                                      )
+            self.HistEq = QPushButton(self)
+            self.HistEq.setText("HistEq")
+            self.HistEq.move(500, 15)
+            self.HistEq.clicked.connect(self.histeqCall)
+            self.HistEq.setStyleSheet("QPushButton"
+                                     "{"
+                                     "background-color : lightblue;"
+                                     "}"
+                                     "QPushButton::pressed"
+                                     "{"
+                                     "background-color : #4acfff;"
+                                     "}"
+                                     )
 
 
     def msrcpCall(self):
@@ -103,6 +117,13 @@ class Screen2(QDialog):
 
     def msrcrCall(self):
         self.tempKep = retinexOnChannels(self.kep)
+        pixmap = QPixmap(self.image_cv2qt(self.tempKep))
+        self.picLabel.setPixmap(pixmap)
+        cv2.imwrite("output.png", self.tempKep)
+
+
+    def histeqCall(self):
+        self.tempKep = histogramEqualization(self.kep)
         pixmap = QPixmap(self.image_cv2qt(self.tempKep))
         self.picLabel.setPixmap(pixmap)
         cv2.imwrite("output.png", self.tempKep)
