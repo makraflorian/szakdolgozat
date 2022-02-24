@@ -21,16 +21,6 @@ Plans:
 a hisztogram-kiegyenlítés valamilyen változata
 - Új kép file-ba írása(kezdetben fix mappába, késöbb útvonalválasztó készítése)
 
-`Próba: egy inverz fuggvennyel tesztelni az alkalmazast`
-
-`Probléma: Még mindig nem értem a gombokat, miutan megnyomtuk, a return-t nem tudjuk visszakapni
-ezért nem értem hogy tudom megvalósítani hogy gombnyomasra javitok a kepen es azt visszaadva megjelenitem`
-
-`Megoldás lehet: 
-- 1, a metodusokat belepakolni a main.py-ba és gomnyomasra ujrapeldanyositani a scene classt
-- 2, hagyni kulon file-ban és ... --||--`
-- getter/setter propertykkel ügyeskeés (kérdőjel) // Működik, egyenlőre megoldható
-
 -- GUI megcsinálni szépre ha marad rá idő
 
 ### Day ?
@@ -40,3 +30,10 @@ ezért nem értem hogy tudom megvalósítani hogy gombnyomasra javitok a kepen e
 ` http://www.lirmm.fr/~wpuech/enseignement/master_informatique/Analyse_Traitement_Image/2011_article_a_lire.pdf `
 https://imgur.com/a/gyKU6iz <br/>
 https://imgur.com/a/5oszPmk
+
+### 2022.02.03
+` Multiscale Retinex eljárás implementálása, kissebb ui változtatások `<br/>
+` http://www.ipol.im/pub/art/2014/107/ ` - a fő publikáció<br/>
+` A megvalósítás csak az intenzitás csatornás változatot tartalmazza --> megoldani hogy működjön a másik módszerrel is `<br/>
+https://imgur.com/a/7VszZd3 - eredmény
+
