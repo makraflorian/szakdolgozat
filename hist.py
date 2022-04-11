@@ -1,10 +1,10 @@
 import math
-
 import cv2
 import numpy
 import numpy as np
 from PIL import Image
 from matplotlib import pyplot as plt
+from metrics import get_CEF
 
 
 def histogramEqualization(image):
@@ -53,6 +53,8 @@ def histogramEqualization(image):
                 img[y, x, 2] = 255 - Y
 
     img_out = np.uint8(img)
+
+    get_CEF(image, img_out)
 
     # img_out = cv2.merge((b, g, r))
     return img_out

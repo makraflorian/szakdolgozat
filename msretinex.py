@@ -2,16 +2,18 @@ import cv2
 import numpy as np
 # from PIL import Image
 # from matplotlib import pyplot as plt
+from metrics import get_CEF
 
 # ezt hívjuk meg gombnyomásra a képpel
 def retinexOnIntensity(image):
-    # img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # height, width, channels = img.shape
     # print(img.shape)
     print(image.shape)
 
     # Multiscale Retinex eljárás hívása a képre
-    newRGBImage = MSRCP(image, [15, 80, 250], 0.01, 0.99)
+    newRGBImage = MSRCP(image, [15, 80, 250], 0.02, 0.99)
+
+    get_CEF(image, newRGBImage)
 
     print("Done!")
 
@@ -26,6 +28,8 @@ def retinexOnChannels(image):
 
     # Multiscale Retinex eljárás hívása a képre
     newRGBImage = MSRCR(image, [15, 80, 250], 192.0, -30.0, 125.0, 46.0, 0.01, 0.99)
+
+    get_CEF(image, newRGBImage)
 
     print("Done!")
 

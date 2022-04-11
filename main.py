@@ -8,6 +8,7 @@ import sys
 from fileOpener import *
 from msretinex import *
 from hist import *
+from morph import *
 
 from PyQt5.uic import loadUi
 
@@ -103,6 +104,19 @@ class Screen2(QDialog):
                                      "background-color : #4acfff;"
                                      "}"
                                      )
+            self.Morph = QPushButton(self)
+            self.Morph.setText("Morph")
+            self.Morph.move(600, 15)
+            self.Morph.clicked.connect(self.morphCall)
+            self.Morph.setStyleSheet("QPushButton"
+                                      "{"
+                                      "background-color : lightblue;"
+                                      "}"
+                                      "QPushButton::pressed"
+                                      "{"
+                                      "background-color : #4acfff;"
+                                      "}"
+                                      )
 
 
     def msrcpCall(self):
@@ -124,6 +138,12 @@ class Screen2(QDialog):
 
     def histeqCall(self):
         self.tempKep = histogramEqualization(self.kep)
+        pixmap = QPixmap(self.image_cv2qt(self.tempKep))
+        self.picLabel.setPixmap(pixmap)
+        cv2.imwrite("output.png", self.tempKep)
+
+    def morphCall(self):
+        self.tempKep = multiscaleMorphology(self.kep)
         pixmap = QPixmap(self.image_cv2qt(self.tempKep))
         self.picLabel.setPixmap(pixmap)
         cv2.imwrite("output.png", self.tempKep)
