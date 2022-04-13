@@ -4,7 +4,7 @@ import numpy
 import numpy as np
 from PIL import Image
 from matplotlib import pyplot as plt
-from metrics import get_CEF
+from metrics import get_CEF, get_AVG_Contrast
 
 
 def histogramEqualization(image):
@@ -14,18 +14,6 @@ def histogramEqualization(image):
     # global r,g,b
     # r, g, b = cv2.split(img)
     wh = width*height
-
-# =========================================================================================================================
-    # pil_image = Image.fromarray(image)
-    # pil_channels = pil_image.split()
-    #
-    # normalizedRedChannel = pil_channels[0].point(normalizeRed)
-    # normalizedGreenChannel = pil_channels[1].point(normalizeGreen)
-    # normalizedBlueChannel = pil_channels[2].point(normalizeBlue)
-    #
-    # normalizedImage = Image.merge("RGB", (normalizedRedChannel, normalizedGreenChannel, normalizedBlueChannel))
-    # im_np = np.asarray(normalizedImage) #return
-# =========================================================================================================================
 
     img = np.float64(image)
     intensity = np.sum(img, axis=2) / 768
@@ -54,7 +42,11 @@ def histogramEqualization(image):
 
     img_out = np.uint8(img)
 
+    print("Done")
+
+    print("Metrics:")
     get_CEF(image, img_out)
+    get_AVG_Contrast(image, img_out)
 
     # img_out = cv2.merge((b, g, r))
     return img_out
@@ -73,76 +65,4 @@ def something(intensity):
         alphaval = delta1 - ((delta2 - m) * (((delta2 - intensity) / (delta2 - m)) ** n))
 
     return alphaval
-
-
-# def normalizeRed(intensity):
-#
-#     minInput = r.min() * 2
-#     maxInput = r.max()
-#     minOutput = 0
-#     maxOutput = 255
-#
-#     normalized = (intensity - minInput) * (((maxOutput - minOutput) / (maxInput - minInput)) + minOutput)
-#
-#     return normalized
-#
-#
-# def normalizeGreen(intensity):
-#
-#     minInput = g.min() * 2
-#     maxInput = g.max()
-#     minOutput = 0
-#     maxOutput = 255
-#
-#     normalized = (intensity - minInput) * (((maxOutput - minOutput) / (maxInput - minInput)) + minOutput)
-#
-#     return normalized
-#
-#
-# def normalizeBlue(intensity):
-#
-#     minInput = b.min() * 2
-#     maxInput = b.max()
-#     minOutput = 0
-#     maxOutput = 255
-#
-#     normalized = (intensity - minInput) * (((maxOutput - minOutput) / (maxInput - minInput)) + minOutput)
-#
-#     return normalized
-
-
-# def counter(img):
-#
-#     cdf_table = []
-#
-#
-#     # Iterate through all values.
-#     for x in range(0, 255):
-#         for y in range(0, 255):
-#             cdf_table.append(np.count_nonzero(img == [x, y]))
-#
-#     for x in cdf_table:
-#         cdf_table.append(np.count_nonzero(img == x))
-#
-#     return cdf_table
-#
-#
-# def cdf(x, allPixel, cdf_table):
-#
-#     a = cdf_table[x]
-#     prob = a / allPixel
-#     return prob
-
-
-
-
-
-
-
-
-
-
-
-
-
 
