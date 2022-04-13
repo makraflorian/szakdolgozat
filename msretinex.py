@@ -2,20 +2,22 @@ import cv2
 import numpy as np
 # from PIL import Image
 # from matplotlib import pyplot as plt
-from metrics import get_CEF
+from metrics import get_CEF, get_AVG_Contrast
 
 # ezt hívjuk meg gombnyomásra a képpel
 def retinexOnIntensity(image):
     # height, width, channels = img.shape
     # print(img.shape)
-    print(image.shape)
+    print("MSRetinex with Chromaticity Preservation, image shape: " + str(image.shape))
 
     # Multiscale Retinex eljárás hívása a képre
     newRGBImage = MSRCP(image, [15, 80, 250], 0.02, 0.99)
 
-    get_CEF(image, newRGBImage)
-
     print("Done!")
+
+    print("Metrics:")
+    get_CEF(image, newRGBImage)
+    get_AVG_Contrast(image, newRGBImage)
 
     return newRGBImage
 
@@ -24,14 +26,16 @@ def retinexOnChannels(image):
     # img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # height, width, channels = img.shape
     # print(img.shape)
-    print(image.shape)
+    print("MSRetinex with Color Restoration, image shape: " + str(image.shape))
 
     # Multiscale Retinex eljárás hívása a képre
     newRGBImage = MSRCR(image, [15, 80, 250], 192.0, -30.0, 125.0, 46.0, 0.01, 0.99)
 
-    get_CEF(image, newRGBImage)
-
     print("Done!")
+
+    print("Metrics:")
+    get_CEF(image, newRGBImage)
+    get_AVG_Contrast(image, newRGBImage)
 
     return newRGBImage
 
