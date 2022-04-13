@@ -23,4 +23,40 @@ def get_CEF(original, enhanced):
     enhanced_metrics = metrics(enhanced)
     original_metrics = metrics(original)
 
-    print(enhanced_metrics / original_metrics)
+    print("CEF:" + str(enhanced_metrics / original_metrics))
+
+
+def metrics2(img):
+
+    img = cv2.normalize(img, None, 0, 255, cv2.NORM_MINMAX, cv2.CV_8U)
+    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+
+    # separate channels
+    L, A, B = cv2.split(lab)
+
+    # compute minimum and maximum in 5x5 region using erode and dilate
+    kernel = np.ones((5, 5), np.uint8)
+    min = cv2.erode(L, kernel, iterations=1)
+    max = cv2.dilate(L, kernel, iterations=1)
+
+    # convert min and max to floats
+    min1 = cv2.normalize(min, None, 0, 255, cv2.NORM_MINMAX, cv2.CV_32F)
+    max1 = cv2.normalize(max, None, 0, 255, cv2.NORM_MINMAX, cv2.CV_32F)
+
+    max1 = max1 + 1
+    # compute local contrast
+    contrast = cv2.divide((cv2.subtract(max1, min1)),cv2.add(max1, min1))
+
+    # get average across whole image
+    average_contrast = 100 * np.mean(np.abs(contrast))
+
+    return average_contrast
+
+def get_AVG_Contrast(original, enhanced):
+
+    enhanced_metrics = metrics2(enhanced)
+    original_metrics = metrics2(original)
+
+    print("AVG_Contrast:")
+    print("Original: " + "%.2f" % original_metrics + "%")
+    print("Enhanced: " + "%.2f" % enhanced_metrics + "%")
