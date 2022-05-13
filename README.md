@@ -37,3 +37,5 @@ https://imgur.com/a/5oszPmk
 ` A megvalósítás csak az intenzitás csatornás változatot tartalmazza --> megoldani hogy működjön a másik módszerrel is `<br/>
 https://imgur.com/a/7VszZd3 - eredmény
 
+just work already state:
+https://drive.google.com/drive/folders/1tIGMtXeYRJNhBGi-pHpAfJcUik60EdnJ?usp=sharing
