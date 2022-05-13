@@ -4,9 +4,9 @@ from metrics import get_CEF, get_AVG_Contrast
 
 def histogramEqualization(image):
 
-    height, width, channels = image.shape
-    print(image.shape)
+    print("Hue-Preserving Histogram Equalization, image shape: " + str(image.shape))
 
+    height, width, channels = image.shape
     img = np.float64(image)
     intensity = np.sum(img, axis=2) / 768
 
