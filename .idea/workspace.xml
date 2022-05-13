@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0d037796-7581-4120-8a21-c62e491fbe3c" name="Changes" comment="elgemvan">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/output.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/output.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hist.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/hist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/msretinex.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/msretinex.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +270,7 @@
       <workItem from="1652287204122" duration="1461000" />
       <workItem from="1652362536426" duration="548000" />
       <workItem from="1652376354996" duration="2929000" />
-      <workItem from="1652435804309" duration="6744000" />
+      <workItem from="1652435804309" duration="10164000" />
     </task>
     <task id="LOCAL-00001" summary="setup">
       <created>1632498502591</created>
@@ -518,7 +517,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652441721165</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="elgemvan">
+      <created>1652442992083</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1652442992083</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -591,7 +597,7 @@
     <SUITE FILE_PATH="coverage/szakdolgozat$methods.coverage" NAME="methods Coverage Results" MODIFIED="1633198843529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/szakdolgozat$04_04_b_pyqt5_br_contrast.coverage" NAME="04_04_b_pyqt5_br_contrast Coverage Results" MODIFIED="1633631888693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/szakdolgozat$hist.coverage" NAME="hist Coverage Results" MODIFIED="1639411233110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/szakdolgozat$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1652442691777" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/szakdolgozat$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1652463374228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/szakdolgozat$fileDialog.coverage" NAME="asdDialog Coverage Results" MODIFIED="1632904888973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

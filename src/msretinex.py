@@ -119,20 +119,20 @@ def simplestColorBalance(img, s1, s2):
     height, width, channels = img.shape
     pixelcount = width * height
 
-    low_val = 0
-    high_val = 255
+    min = 0
+    max = 255
 
     for i in range(img.shape[2]):
         unique, counts = np.unique(img[:, :, i], return_counts=True)
         current = 0
         for u, c in zip(unique, counts):
             if float(current) / pixelcount < s1:
-                low_val = u
+                min = u
             if float(current) / pixelcount < s2:
-                high_val = u
+                max = u
             current += c
 
-        img[:, :, i] = np.maximum(np.minimum(img[:, :, i], high_val), low_val)
+        img[:, :, i] = np.maximum(np.minimum(img[:, :, i], max), min)
 
     return img
 
