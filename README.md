@@ -1,7 +1,7 @@
 # Szakdolgozat - Makra Flórián Róbert
 Kontrasztjavítás színes képeken
 
-## Futtatási és telepítési tudnivalók
+## Telepítési tudnivalók
 
 Telepítendő:
 ```
@@ -20,7 +20,7 @@ ___
 ` pip install PyQt5 `
 
 ___
-### Egyéb tudnivalók
+### Futtatási tudnivalók
 
 A program a szükséges csomagok telepítése után önállóan is futtatható a `main.py` fájl futtatásával.
 
